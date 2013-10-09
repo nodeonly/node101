@@ -1,3 +1,5 @@
+// All the terminal wizardry was borrowed from Substack: https://github.com/substack/lxjs-2013-slides
+
 var exterminate = require('exterminate')
 	, shoe = require('shoe')
 	, muxDemux = require('mux-demux')

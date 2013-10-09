@@ -1,3 +1,5 @@
+// Borrowed from Substack: https://github.com/substack/lxjs-2013-slides
+
 var http = require('http')
 	, fs = require('fs')
 	, shoe = require('shoe')
