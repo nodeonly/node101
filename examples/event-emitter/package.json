@@ -1,9 +1,0 @@
-{
-  "name": "demo-event-emitter",
-  "version": "0.1.0",
-  "author": "Alexander Pope <alexander.pope@nrk.no>",
-  "private": true,
-  "dependencies": {
-    "yaw": "*"
-  }
-}

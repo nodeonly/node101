@@ -1,9 +1,0 @@
-{
-  "name": "demo-streams",
-  "version": "0.1.0",
-  "author": "Alexander Pope <alexander.pope@nrk.no>",
-  "private": true,
-  "dependencies": {
-    "through": "*"
-  }
-}
