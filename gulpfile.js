@@ -14,12 +14,17 @@ require('shelljs/global');
 var options = {}
 gulp.task('deploy', function () {
 	
-	mkdir('static')
-	cp('-Rf', ['./*.html', './*.css', './*.js', './*.png', './examples'], './static'); // same as above
+	// mkdir('static')
+	// cp('-Rf', ['./*.html', './*.css', './*.js', './*.png', './examples'], './static'); // same as above
+	//
+	//
+	//   return gulp.src('./static/**/*')
+	//     .pipe(gp_deploy(options));
 	
-	
-  return gulp.src('./static/**/*')
-    .pipe(gp_deploy(options));
+	if (exec('sh ./gh-pages.sh').code !== 0) {
+	  echo('Error: Git commit failed');
+	  exit(1);
+	}
 });
 
 
