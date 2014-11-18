@@ -18,7 +18,7 @@ gulp.task('deploy', function () {
 	cp('-Rf', ['./*.html', './*.css', './*.js', './*.png', './examples'], './static'); // same as above
 	
 	
-  return gulp.src('./static')
+  return gulp.src('./static/**/*')
     .pipe(gp_deploy(options));
 });
 
