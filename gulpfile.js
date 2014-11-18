@@ -1,0 +1,33 @@
+// npm install --save gulp
+// npm install --save gulp-gh-pages
+// npm install --save gulp-open
+// npm install --save gulp-rename
+// npm install --save gulp-i5ting-toc
+// npm install --save shelljs
+var gulp = require('gulp');
+var gp_deploy = require('gulp-gh-pages');
+var open = require("gulp-open");
+var rename = require("gulp-rename");
+var i5ting_toc = require('gulp-i5ting-toc');
+require('shelljs/global');
+
+var options = {}
+gulp.task('deploy', function () {
+	
+	// mkdir('static')
+	// cp('-Rf', ['./*.html', './*.css', './*.js', './*.png', './examples'], './static'); // same as above
+	//
+	//
+	//   return gulp.src('./static/**/*')
+	//     .pipe(gp_deploy(options));
+	
+	if (exec('sh ./gh-pages.sh').code !== 0) {
+	  echo('Error: Git commit failed');
+	  exit(1);
+	}
+});
+
+
+gulp.task('default',['deploy'] ,function () {
+  console.log('default');
+});
