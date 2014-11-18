@@ -16,8 +16,8 @@
 		</header>
 
 		<section>
-			<h2>what?</h2>
-			<p class="ref">According to the Node.js homepage:</p>
+			<h2>它是什么?</h2>
+			<p class="ref">按照Node.js主页的说法:</p>
 			<blockquote>"Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices."</blockquote>
 			<cite><a href="http://www.nodejs.org">www.nodejs.org</a></cite>
 		</section>
@@ -41,7 +41,8 @@
 		</section>
 
 		<section>
-			<h3>core</h3>
+			<h3>核心模块</h3>
+			<!-- <h3>core</h3> -->
 			<p>The Node.js <a href="http://nodejs.org/api/">core API</a> is small, comprising less than 30 library modules:</p>
 			<ul class="col-3 partial">
 				<li>Buffer</li>
@@ -196,7 +197,8 @@
 		</section>
 
 		<section>
-			<h2>how?</h2>
+			<h2>如何做?</h2>
+			<!-- <h2>how?</h2> -->
 			<p>Node derives it's efficiency and scalability from it's evented architecture. When an HTTP server starts<span class="ref">, it tells the OS that it should be notified of incoming connections, then goes to sleep. When a request is made, the OS calls back to the program, the program handles the request, any additional I/O tasks (network calls, database calls, file system access, etc.) are farmed out to a worker threadpool (or native socket), and then goes to sleep until the next event calls back. Each connection is only a small heap allocation. In contrast to more common thread-based concurrency (where thread stacks are created for each connection), memory efficiency under high loads is improved, and dead-locks are not possible.</span></p>
 			<ul class="pres">
 				<li class="partial">tells OS to wake on incoming connections</li>
@@ -244,7 +246,8 @@
 		</section>
 
 		<section>
-			<h3>callbacks</h3>
+			<h3>回调</h3>
+			<!-- <h3>callbacks</h3> -->
 			<p>The callback pattern is the lowest abstraction for doing asynchronous stuff:</p>
 			<pre class="partial"><code class="language-js">
 			/* Blocking */
@@ -274,7 +277,8 @@
 		</section>
 
 		<section>
-			<h3>Event emitters</h3>
+			<h3>Event emitters （事件发射器 ）</h3>
+			<!-- <h3>Event emitters</h3> -->
 			<p>Many APIs also support an Event Emitter (pub/sub) abstraction:</p>
 			<pre class="partial"><code class="language-js">
 			var server = new http.Server();
@@ -301,7 +305,8 @@
 
 		<section data-cwd="examples/streams">
 			<div class="note">npm install through &amp;&amp; cat server.js &amp;&amp; node server.js<br> [new shell] echo are you getting this? | curl -d@- localhost:5000</div>
-			<h3>Streams</h3>
+			<h3>Streams（管道流）</h3>
+			<!-- <h3>Streams</h3> -->
 			<p>Streams extend the Event Emitter pattern, and are ideal for managing data flows and control throughput. As in UNIX, Node objects that implement the streaming API can <code>pipe()</code> data to/from other objects. Streams can be readable, writeable, or both (duplex):</p>
 			<pre class="partial"><code class="language-js">
 			var http = require('http')
@@ -316,12 +321,14 @@
 		</section>
 
 		<section>
-			<h2>why?</h2>
+			<h2>为什么要用它呢?优点</h2>
+			<!-- <h2>why?</h2> -->
 			<p>Although Node is not the answer for all use cases, there are several compelling reasons to look at Node as part of an application stack: </p>
 		</section>
 
 		<section>
-			<h3>Latency is everything</h3>
+			<h3>万事万物皆异步 Latency is everything</h3>
+			<!-- <h3>Latency is everything</h3> -->
 			<p>As things go mobile, things go slow. <span class="ref">The network itself is to blame, and will be a problem for a long time to come. Response latency is the most important metric. The <a href="http://en.wikipedia.org/wiki/Time_To_First_Byte">time to first byte</a> and overall responsiveness of a web application is extremely important if we want the best possible experience. Node's ability to quickly and efficiently respond to connections makes it a good fit for the higher-latency, mobile web.</span></p>
 			<ul class="pres">
 				<li class="partial">the network is to blame</li>
@@ -344,7 +351,8 @@
 		</section>
 
 		<section>
-			<h3>End-to-end JavaScript</h3>
+			<h3>端到端的JavaScript</h3>
+			<!-- <h3>End-to-end JavaScript</h3> -->
 			<p>Mixing business logic with the UI presentation layer on the back-end is a result of the physical HTTP request/response cycle, not an architectural ideal. <span class="ref">It has created an artificial division of presentation logic across the server/client divide. The trend towards PAAS and RESTful interfaces creates a good opportunity to separate business logic from presentation layer (separation of concerns), and Node allows consolidating the UI layer under one common language.</span></p>
 			<ul class="pres">
 				<li class="partial">artificial division of presentation logic</li>
@@ -363,22 +371,26 @@
 		</section>
 
 		<section>
-			<h3>API/Proxy for legacy systems</h3>
+			<h3>遗留系统的API/Proxy</h3>
+			<!-- <h3>API/Proxy for legacy systems</h3> -->
 			<p>Because of its asynchronous, event-based model, Node is often used as an orchestration server fronting all of the services an application relies upon. Assembling content from multiple API calls, or putting a pretty face on legacy systems and APIs, is a perfect and common use case.</p>
 		</section>
 
 		<section>
-			<h3>Simplicity</h3>
+			<h3>简单Simplicity</h3>
+			<!-- <h3>Simplicity</h3> -->
 			<p>Combining the asynchrony and scalability of Node with the dynamism and expressiveness of JavaScript often results in applications that are much simpler and rapid to develop. <a href="http://ozzie.net/docs/dawn-of-a-new-day/">Complexity kills</a>.</p>
 		</section>
 
 		<section>
-			<h2>Why not?</h2>
+			<h2>为啥不用它呢?缺点</h2>
+			<!-- <h2>Why not?</h2> -->
 			<p>Clearly, Node isn't the solution to every problem. It's obvious that business logic processing with lots of database CRUD, image processing, or any long-running blocking operations are best avoided. But what are some of the other issues to be aware of?</p>
 		</section>
 
 		<section>
-			<h3>Control flow</h3>
+			<h3>流程控制</h3>
+			<!-- <h3>Control flow</h3> -->
 			<p>Although the callback pattern is a simple and elegant solution to dealing with asynchrony, so-called "callback hell" (deeply nested callbacks) is a risk that can increase complexity. <span class="ref">This can largely be mitigated by refactoring or using other control flow patterns or modules (events, streams, <a href="https://npmjs.org/package/async">async module</a>, promises, co-routines, etc.).</span></p>
 			<ul class="pres">
 				<li class="partial">named functions or prototypes instead of anonymous functions</li>
@@ -391,7 +403,8 @@
 		</section>
 
 		<section>
-			<h3>Error handling</h3>
+			<h3>异常捕获</h3>
+			<!-- <h3>Error handling</h3> -->
 			<p>Because a single Node process is responsible for many (10,000? 100,000? 1,000,000?) connections, any unhandled errors can take down many connections at once. <span class="ref">The golden rule is: <strong>handle all errors</strong>. <a href="http://nodejs.org/api/domain.html"><code>Domains</code></a> are a good way to group I/O tasks in a sandbox in order to reduce the risk that unhandled errors will force the whole program to exit immediately.</span></p>
 			<ul class="pres">
 				<li class="partial"><strong>handle all errors</strong></li>
@@ -405,7 +418,8 @@
 		</section>
 
 		<section>
-			<h3>Debugging</h3>
+			<h3>调试</h3>
+			<!-- <h3>Debugging</h3> -->
 			<p>Node's relative immaturity is most apparent in it's lack of debug tooling. <span class="ref">As a very low-level platform that relies upon callbacks (unwound call stacks make stack traces difficult to debug), true debugging often requires very low-level instrumentation at the V8 or OS level. Node can make use of V8's <a href="http://nodejs.org/api/debugger.html">debugger</a>, and tools like <a href="https://github.com/node-inspector/node-inspector">node-inspector</a> (using webkit's inspector) and <a href="http://dtrace.org/blogs/bmc/2012/05/05/debugging-node-js-memory-leaks/">DTrace</a>.</span></p>
 			<ul class="pres">
 				<li class="partial">callbacks lead to unwound call stacks (stack traces can be difficult to debug)</li>
@@ -418,8 +432,10 @@
 		</section>
 
 		<section>
-			<h2>Who?</h2>
-			<p>So who uses Node?</p>
+			<h2>谁在用?</h2>
+			<!-- <h2>Who?</h2> -->
+			<p>那么到底有哪些人在使用Node呢?</p>
+			<!-- <p>So who uses Node?</p> -->
 			<ul>
 				<li class="partial"><strong>Walmart</strong>: API layer for many distributed services, serve new products (end-to-end JavaScript, legacy services)</li>
 				<li class="partial"><strong>PayPal</strong>: internal tools and systems, API layer, serve new products (rapid/agile development)</li>
@@ -435,7 +451,8 @@
 		</section>
 
 		<section>
-			<h2>When?</h2>
+			<h2>何时发布1.0?</h2>
+			<!-- <h2>When?</h2> -->
 			<p><a href="http://strongloop.com/strongblog/the-road-to-node-js-v1-0/">According to the maintainers</a>, Node core is more or less finished. The current stable release is 0.10, and the next stable release (0.12) is right around the corner:</p>
 			<ul>
 				<li class="partial">Cleanup of <code>http</code></li>
@@ -454,12 +471,13 @@
 				[new shell] cat api.js &amp;&amp; node api.js<br>
 				[open tab] http://localhost:5001
 			</div>
-			<p class="sign-off">Do you Node?</p>
+			<p class="sign-off">亲，你Node了么?</p>
+			<!-- <p class="sign-off">Do you Node?</p> -->
 			<p class="pres partial centre">popeindustries.github.io/node101</p>
 		</section>
 
 		<section class="ref">
-			<h2>References</h2>
+			<h2>参考</h2>
 			<ul class="col-2">
 				<li><a href="http://nodejs.org/about/">Node.js: about</a></li>
 				<li><a href="http://nodejs.org/api/">Node.js API</a></li>
