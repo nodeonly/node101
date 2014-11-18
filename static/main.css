@@ -1,0 +1,295 @@
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+html {
+	font-size: 100%;
+}
+body {
+	font-family: "Avenir Next", sans-serif;
+	line-height: 1.5;
+	background-color: white;
+	color: #444;
+	tab-size: 2;
+}
+article {
+	width: 100%;
+	max-width: 60rem;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+section {
+	overflow: hidden;
+	position: relative;
+}
+h1 {
+	font-size: 4rem;
+	margin: 2rem 0;
+	font-weight: 100;
+	text-align: center;
+}
+h2 {
+	font-size: 2rem;
+	font-weight: 200;
+	margin: 2rem 0 1rem;
+	color: #8c8c8c;
+	text-transform: capitalize;
+	border-bottom: 1px solid #ddd;
+}
+h3 {
+	font-size: 1.5rem;
+	margin: 0.875rem 0;
+	text-transform: uppercase;
+	font-weight: 200;
+}
+h4 {
+	font-size: 1.5rem;
+	margin: 0.75rem;
+	text-transform: uppercase;
+	font-style: italic;
+}
+p,
+ul,
+figure,
+pre {
+	margin-bottom: 1rem;
+}
+li code,
+p code {
+	background-color: rgba(0,0,0,0.15);
+	display: inline-block;
+	padding: 0 0.25rem;
+}
+a {
+	display: inline-block;
+	text-decoration: none;
+	color: #333;
+	font-weight: 100;
+	border-bottom: 1px dotted #999;
+}
+a:hover {
+	color: #000;
+}
+ul {
+	margin-left: 1rem;
+}
+li {
+	position: relative;
+	line-height: 1.2;
+	margin-bottom: 0.8rem;
+}
+li:before {
+	content: '';
+	position: absolute;
+	left: -1.5rem;
+	top: 0rem;
+	display: block;
+	width: 20px;
+	height: 20px;
+	opacity: 0.75;
+}
+li ul {
+	margin: 0.5rem 0 0 2rem;
+}
+code {
+	font-family: 'Inconsolata', monospace;
+}
+pre code {
+	margin-left: -2rem;
+}
+em {
+	font-style: italic;
+}
+strong {
+	font-weight: 600;
+}
+blockquote {
+	font-style: italic;
+	font-size: 1.25rem;
+	text-align: left;
+	margin-bottom: 0;
+}
+cite {
+	display: block;
+	font-style: normal;
+	text-align: center;
+	margin-bottom: 2rem;
+}
+figure {
+	text-align: center;
+}
+figure img {
+	padding: 1rem;
+	background-color: #fff;
+	/*border: 1px solid #ccc;*/
+	max-width: 100%;
+}
+.button {
+	text-transform: uppercase;
+	background-color: transparent;
+	color: #666;
+	border: none;
+	outline: none;
+	padding: 0.25rem 0.5rem;
+	cursor: pointer;
+	font-size: 0.5rem;
+}
+.button:hover {
+	background-color: #ababab;
+	color: #666;
+}
+.button-mode {
+	position: absolute;
+	top: 0.25rem;
+	right: 0.25rem;
+}
+.col-2 {
+	-webkit-columns: 2;
+}
+.col-3 {
+	-webkit-columns: 3;
+}
+.sign-off {
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 200;
+}
+.centre {
+	text-align: center;
+}
+.pres,
+.note {
+	display: none;
+}
+.ref {
+	display: static;
+}
+.note {
+	font-family: 'Inconsolata', monospace;
+	font-size: 75%;
+	padding: 0 0.5rem;
+	text-align: right;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: rgba(252, 240, 111, 0.8);
+}
+.presentation-mode {
+	font-size: 125%;
+}
+.presentation-mode body {
+	background-color: #000;
+	overflow: hidden;
+}
+.presentation-mode article,
+.presentation-mode section,
+.presentation-mode header {
+	width: 100%;
+	height: 100%;
+}
+.presentation-mode article>section,
+.presentation-mode header {
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-webkit-transform: translate(100%, 0);
+	transform: translate(100%, 0);
+	padding: 0 10%;
+	background-color: white;
+	opacity: 1;
+	-webkit-transition: -webkit-transform 0.75s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.8s linear, visibility 0.8s linear;
+	transition: transform 0.75s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.8s linear, visibility 0.8s linear;
+	-webkit-box-shadow: 0 1rem 1rem 1rem rgba(0,0,0,0.1);
+	box-shadow: 0 1rem 1rem 1rem rgba(0,0,0,0.1);
+	display: -webkit-flex;
+	-webkit-flex-direction: column;
+	-webkit-justify-content: center;
+}
+.presentation-mode article>section.visible,
+.presentation-mode header.visible {
+	visibility: visible;
+	-webkit-transform: translate(0, 0);
+	transform: translate(0, 0);
+}
+.presentation-mode article>section.stacked,
+.presentation-mode header.stacked {
+	opacity: 0;
+}
+.presentation-mode h1,
+.presentation-mode h2,
+.presentation-mode h3 {
+	width: 100%;
+	margin-top: 0;
+}
+.presentation-mode a {
+	border: none;
+	font-weight: 400;
+}
+.presentation-mode .partial {
+	opacity: 0;
+	-webkit-transition: all 0.5s;
+	transition: all 0.5s;
+}
+.presentation-mode .partial.show {
+	opacity: 1;
+}
+.presentation-mode figure.partial {
+	height: 0;
+}
+.presentation-mode figure.partial.show {
+	height: auto;
+}
+.presentation-mode .pres {
+	display: block;
+}
+.presentation-mode .ref {
+	display: none;
+}
+.presentation-mode #btnPresentation {
+	display: none;
+}
+.presentation-mode #progress {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 12px;
+	background-color: black;
+	opacity: 0.75;
+	-webkit-transition: width 250ms ease-out;
+	transition: width 250ms ease-out;
+}
+.presentation-mode #progress p {
+	font-weight: 100;
+	color: white;
+	font-size: 12px;
+	line-height: 14px;
+	padding-left: 4px;
+	margin: 0;
+}
+.presentation-mode .terminal {
+	position: absolute !important;
+	background-color: rgba(0,0,0,0.85) !important;
+	border: 1px solid white;
+	font-size: 80%;
+	padding: 1rem;
+	font-family: 'Inconsolata', monospace;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+}
+.presentation-mode .terminal .reverse-video {
+	background-color: white;
+}
+.presentation-slave .note {
+	display: block;
+}
