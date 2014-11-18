@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en" class="reference-mode">
+<head>
+	<meta charset="utf-8">
+	<title>node.js 101</title>
+	<link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="codetheme.css">
+</head>
+<body>
+	<button class="button button-mode" id="btnPresentation">presentation mode</button>
+	<article class="slides">
+
+		<header class="visible">
+			<h1>Node.js 101</h1>
+		</header>
+
+		<section>
+			<h2>what?</h2>
+			<p class="ref">According to the Node.js homepage:</p>
+			<blockquote>"Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices."</blockquote>
+			<cite><a href="http://www.nodejs.org">www.nodejs.org</a></cite>
+		</section>
+
+		<section>
+			<p>Taking each in turn:</p>
+			<ul>
+				<li class="partial"><strong>it's a platform</strong>: it's not a language (JavaScript is the language), not a framework like Ruby on Rails or Django, and not a webserver like Apache</li>
+				<li class="partial"><strong>it's fast</strong>: it's built on the V8 engine (probably the fastest dynamic language runtime out there)</li>
+				<li class="partial"><strong>it's scalable</strong>: can handle many concurrent connections</li>
+				<li class="partial"><strong>it's event-driven</strong>: asynchronous by default; the event loop is single threaded, so no thread management/synchronization mechanisms/message passing</li>
+				<li class="partial"><strong>it's doesn't block on I/O</strong>: the <em>JavaScript</em> event loop farms out all I/O tasks to worker threads</li>
+				<li class="partial"><strong>it's lightweight and efficient</strong>: can handle many connections and tasks with few resources</li>
+				<li class="partial"><strong>it's perfect for real-time</strong>: it's low latency request handling is ideal for real-time, high concurrency scenarios</li>
+				<li class="partial"><strong>it's distributable</strong>: scales well horizontally across cores/vms/machines</li>
+			</ul>
+		</section>
+
+		<section>
+			<p>Node's goal is to easily write programs that talk to file systems or networks. It's open source, cross-platform, and it works (for some things).</p>
+		</section>
+
+		<section>
+			<h3>core</h3>
+			<p>The Node.js <a href="http://nodejs.org/api/">core API</a> is small, comprising less than 30 library modules:</p>
+			<ul class="col-3 partial">
+				<li>Buffer</li>
+				<li>Child Processes</li>
+				<li>Cluster</li>
+				<li>Crypto</li>
+				<li>DNS</li>
+				<li>Domain</li>
+				<li>Events</li>
+				<li>File System</li>
+				<li>HTTP</li>
+				<li>HTTPS</li>
+				<li>Net (TCP)</li>
+				<li>OS</li>
+				<li>Path</li>
+				<li>Process</li>
+				<li>Punycode</li>
+				<li>Query Strings</li>
+				<li>Readline</li>
+				<li>Stream</li>
+				<li>String Decoder</li>
+				<li>TLS/SSL</li>
+				<li>TTY</li>
+				<li>UDP</li>
+				<li>URL</li>
+				<li>VM</li>
+				<li>ZLIB</li>
+			</ul>
+		</section>
+
+		<section>
+			<p>Of all the core APIs, <code>http</code> and <code>fs</code> truly embody the two main use cases for Node:</p>
+		</section>
+
+		<section>
+			<p class="pres">Network communications with servers and clients is Node's bread and butter:</p>
+			<pre><code class="language-js">
+			// Serve and consume network requests
+			http.createServer(request);
+			http.request(options, callback);
+			</code></pre>
+			<p class="ref">Network communications with servers and clients is Node's bread and butter. TCP/HTTP(S)/UDP networks have many uses, and enables Node to be used for serving web pages, calling APIs, hosting socket connections, receiving file uploads, flying drone copters, controlling robots, and much more.</p>
+			<ul class="pres">
+				<li class="partial">serve web pages</li>
+				<li class="partial">call APIs</li>
+				<li class="partial">host socket connections</li>
+				<li class="partial">receive file uploads</li>
+				<li class="partial">fly drone copters</li>
+				<li class="partial">control robots</li>
+			</ul>
+		</section>
+
+		<section data-cwd="../yr/beta.yr.no/client">
+			<div class="note">buddy build</div>
+			<p class="pres">File system access allows Node to be used as a tooling and scripting platform:</p>
+			<pre><code class="language-js">
+			// Read and write from the file system
+			fs.readFile(filename, callback);
+			fs.writeFile(filename, data, callback);
+			</code></pre>
+			<p class="ref">File system access allows Node to be used as a tooling and scripting platform. The transformation of file contents and raw data also has many uses, and Node is commonly used to compile, build, and generally manipulate file contents in a myriad of ways. It has become especially popular in web production pipelines (compilers, task runners, bootstrappers, compressors, etc).</p>
+			<ul class="pres">
+				<li class="partial">parse, tokenize, transform file contents</li>
+				<li class="partial">compile, build, compress</li>
+				<li class="partial">popular tool for web production pipelines</li>
+			</ul>
+		</section>
+
+		<section>
+			<h3>npm</h3>
+			<p>The Node philosophy is to build small composible parts that do one thing (the <a href="http://en.wikipedia.org/wiki/Unix_philosophy">UNIX philosophy</a>), and if that one thing can be done in "userland", then it doesn't belong in core. </p>
+		</section>
+
+		<section>
+			<p>One of the things that Node has arguably done better than other platforms is dependency management. <span class="ref">By default, Node modules are installed locally, not globally, and multiple versions of a dependant module can co-exist in a project. Both public and private modules can be versioned and installed, with public modules hosted on the official <a href="https://npmjs.org">NPM registry</a>.</span></p>
+			<ul class="pres">
+				<li class="partial">modules are installed locally, not globally</li>
+				<li class="partial">multiple version can co-exist</li>
+				<li class="partial">public and private modules can be versioned and installed</li>
+				<li class="partial">public modules hosted on NPM</li>
+			</ul>
+		</section>
+
+		<section data-cwd="examples/npm-install">
+			<div class="note">npm install request &amp;&amp; ls<br/> cd node_modules &amp;&amp; ls</div>
+			<p>The <code>npm</code> tool is installed along with <code>node</code>: </p>
+			<pre class="partial"><code class="language-bash">
+			$ cd path/to/my/project
+			$ npm install request
+			</code></pre>
+		</section>
+
+		<section data-cwd=".">
+			<div class="note">cat package.json</div>
+			<p>Dependencies are declared through a <code>package.json</code> manifest file:</p>
+			<pre class="partial"><code class=language-json>
+			{
+				"name": "myProject",
+				"description": "A very awesome project",
+				"version": "0.1.0",
+				"author": "Alexander Pope &lt;alexander.pope@nrk.no&gt;",
+				"dependencies": {
+					"underscore": "1.2.3",
+					"async": "*",
+					"request": "~2.27.0"
+				},
+				"main": "index.js"
+			}
+			</code></pre>
+		</section>
+
+		<section>
+			<p>This modularity and ease of dependency management of <em>server-side</em> JavaScript has had a big effect on the client-side variety as well. <span class="ref">There is a growing movement away from large, all encompassing libraries to small, focused modules. jQuery itself has begun to modularize, and tools have made it easier to organize and deliver client-side code in a modular way. JavaScript in the browser does not (yet) have a native module system, but both AMD and CommonJS (Node style) module systems are easily implemented.</span></p>
+			<ul class="pres">
+				<li class="partial">movement away from BIG libraries</li>
+				<li class="partial">even jQuery is modularizing</li>
+				<li class="partial">better tooling</li>
+				<li class="partial">no native module system yet, but AMD and CommonJS are easy</li>
+			</ul>
+		</section>
+
+		<section data-cwd="examples/lodash">
+			<div class="note">npm install lodash.bind &amp;&amp; cd node_modules &amp;&amp; ls -l</div>
+			<p>NPM stands for <em>Node Packaged Modules</em>, and is not necessarily restricted to Node-only modules. <span class="ref">We are seeing more and more browser-only modules being published, and are beginning to enter a <em>hyper</em>-modularized era. Because of the resource transmission constraints in the browser and the ease of publishing to NPM, we are beginning to see function-level modules being published. <a href="http://lodash.com/">Lodash</a> is the first of the popular libraries to go this direction:</span></p>
+			<ul class="pres">
+				<li class="partial">more browser-only modules</li>
+				<li class="partial"><em>hyper</em>-modularization: function-level modules</li>
+				<li class="partial">Lodash is first, but probably not the last</li>
+			</ul>
+			<pre class="partial"><code class="language-bash">
+			$ npm install lodash.bind
+			</code></pre>
+		</section>
+
+		<section>
+			<p>There are over 43,000 packages on NPM, which presents a discovery problem, but highlights the unique nature of Node development: <span class="ref">with a small core and an active, open source user community, it's every module for itself. Competition decides which modules are best, not corporations or committees.</span></p>
+			<ul class="pres">
+				<li class="partial">small core, active open source community</li>
+				<li class="partial">every module for itself: competition decides...</li>
+				<li class="partial">...not corporations or committees</li>
+			</ul>
+		</section>
+
+		<section>
+			<h3>GitHub</h3>
+			<p>The evolution of Node has also been heavily influenced and driven by <a href="http://github.com">GitHub</a>'s rise. <span class="ref">As one of the few platforms to be released after GitHub (the Node project was started in 2009), the growth of open source activity around the platform has been unprecedented, and likely responsible for making JavaScript the most <a href="http://adambard.com/blog/top-github-languages-for-2013-so-far/">popular language</a> on GitHub (which was heavily Ruby oriented at it's start).</span></p>
+			<ul class="pres">
+				<li class="partial">Node was released after GitHub (started 2009)</li>
+				<li class="partial">OSS growth has fuelled Node's</li>
+				<li class="partial">likely responsible for making JavaScript most popular language on GitHub</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>how?</h2>
+			<p>Node derives it's efficiency and scalability from it's evented architecture. When an HTTP server starts<span class="ref">, it tells the OS that it should be notified of incoming connections, then goes to sleep. When a request is made, the OS calls back to the program, the program handles the request, any additional I/O tasks (network calls, database calls, file system access, etc.) are farmed out to a worker threadpool (or native socket), and then goes to sleep until the next event calls back. Each connection is only a small heap allocation. In contrast to more common thread-based concurrency (where thread stacks are created for each connection), memory efficiency under high loads is improved, and dead-locks are not possible.</span></p>
+			<ul class="pres">
+				<li class="partial">tells OS to wake on incoming connections</li>
+				<li class="partial">program sleeps</li>
+				<li class="partial">on request, OS calls back to program</li>
+				<li class="partial">program wakes to handle request</li>
+				<li class="partial">additional I/O tasks farmed out to a worker threadpool (or native socket)</li>
+				<li class="partial">program sleeps until next event calls back</li>
+			</ul>
+		</section>
+
+		<section>
+			<p class="pres">Each connection is a small heap allocation, in contrast to common thread-based concurrency where entire thread stacks are created for each connection.</p>
+			<ul class="pres">
+				<li class="partial">More memory efficient under high loads.</li>
+				<li class="partial">Dead-locking not possible.</li>
+			</ul>
+		</section>
+
+		<section>
+			<pre><code class="language-js">
+			var http = require('http')
+				, request = require('request');
+
+			http.createServer(function(req, res) {
+				res.writeHead(200, {'Content-Type': 'text/plain'});
+				request.get('http://rest/api/data',
+					function(err, resp, body) {
+						res.end('Hello!' + data + '\n');
+					}
+				);
+			}).listen(80);
+			</code></pre>
+			<figure class="partial">
+				<img src="diagram.png">
+			</figure>
+		</section>
+
+		<section>
+			<p>Because this single-threaded event loop is backed by a pool of worker threads, everything runs in parallel, <strong><em>except</em></strong> your application code.</p>
+		</section>
+
+		<section>
+			<p>It's important to note that this non-blocking I/O model isn't faster (operations/sec), but it does allow for faster responses (requests/sec)<span class="ref"> by allowing your application to immediately handle new connections while waiting</span>.</p>
+		</section>
+
+		<section>
+			<h3>callbacks</h3>
+			<p>The callback pattern is the lowest abstraction for doing asynchronous stuff:</p>
+			<pre class="partial"><code class="language-js">
+			/* Blocking */
+			var result = db.query('select...');
+			// Use result
+
+			/* Non-blocking */
+			db.query('select...', function(result) {
+				// Use result
+			});
+			</code></pre>
+		</section>
+
+		<section>
+			<p>In most cases, the overriding pattern for Node callbacks is to return an <code>Error</code> object as the first argument, or <code>null</code> if there was no error: </p>
+			<pre class="partial"><code class="language-js">
+			var fs = require('fs');
+
+			fs.readFile('myfile.txt', function(err, contents) {
+				if (err) {
+					// Handle error
+				} else {
+					// Do something with contents
+				}
+			});
+			</code></pre>
+		</section>
+
+		<section>
+			<h3>Event emitters</h3>
+			<p>Many APIs also support an Event Emitter (pub/sub) abstraction:</p>
+			<pre class="partial"><code class="language-js">
+			var server = new http.Server();
+			server.on('request', function(req, res) {
+				res.end('hello!');
+			});
+			server.listen(8001);
+			</code></pre>
+		</section>
+
+		<section data-cwd="examples/event-emitter">
+			<div class="note">npm install yaw &amp;&amp; cat watch.js<br> node watch.js data.txt<br> [new shell] touch data.txt</div>
+			<p>Event Emitters can be preferable to callbacks when things are expected to happen continuously over time:</p>
+			<pre class="partial"><code class="language-js">
+			var Watcher = require('yaw')
+				, watcher = new Watcher()
+				, watcher.watch(filepath);
+
+			watcher.on('change', this.onWatchChange.bind(this));
+			watcher.on('delete', this.onWatchDelete.bind(this));
+			watcher.on('error', this.onWatchError.bind(this));
+			</code></pre>
+		</section>
+
+		<section data-cwd="examples/streams">
+			<div class="note">npm install through &amp;&amp; cat server.js &amp;&amp; node server.js<br> [new shell] echo are you getting this? | curl -d@- localhost:5000</div>
+			<h3>Streams</h3>
+			<p>Streams extend the Event Emitter pattern, and are ideal for managing data flows and control throughput. As in UNIX, Node objects that implement the streaming API can <code>pipe()</code> data to/from other objects. Streams can be readable, writeable, or both (duplex):</p>
+			<pre class="partial"><code class="language-js">
+			var http = require('http')
+				, fs = require('fs');
+
+			http.createServer(function(req, res) {
+				var stream = fs.createReadStream('movie.mp4');
+				stream.pipe(res);
+			}).listen(8002);
+			</code></pre>
+			<p class="partial">File streams (and all data streams) are especially useful because they don't buffer content, and are therefore memory efficient.</p>
+		</section>
+
+		<section>
+			<h2>why?</h2>
+			<p>Although Node is not the answer for all use cases, there are several compelling reasons to look at Node as part of an application stack: </p>
+		</section>
+
+		<section>
+			<h3>Latency is everything</h3>
+			<p>As things go mobile, things go slow. <span class="ref">The network itself is to blame, and will be a problem for a long time to come. Response latency is the most important metric. The <a href="http://en.wikipedia.org/wiki/Time_To_First_Byte">time to first byte</a> and overall responsiveness of a web application is extremely important if we want the best possible experience. Node's ability to quickly and efficiently respond to connections makes it a good fit for the higher-latency, mobile web.</span></p>
+			<ul class="pres">
+				<li class="partial">the network is to blame</li>
+				<li class="partial">response latency is the most important metric</li>
+				<li class="partial">time to first byte and overall responsiveness</li>
+				<li class="partial">Node's ability to quickly and efficiently respond is good for the higher-latency, mobile web</li>
+			</ul>
+		</section>
+
+		<section>
+			<h3>Real-time and personal</h3>
+			<p>Along with going mobile, the web has also become increasingly real-time. <span class="ref">Content is more social and data-centric, requiring frequent updates. It is also more personal and customized as people consume content on their "personal" devices (small screens, focused experiences). Both of these trends add up to delivering more dynamic content, and on the server, that means we can't hide behind cache layers to mitigate stressing our applications. Real-time doesn't cache, and transferring responsibility for personalization to the client, for example, doesn't deliver an optimal experience (more requests = more latency).</span> </p>
+			<ul class="pres">
+				<li class="partial">content more social and data-centric</li>
+				<li class="partial">more personal and customized (on "personal" devices)</li>
+				<li class="partial">more dynamic content</li>
+				<li class="partial">can't hide behind cache: real-time doesn't cache</li>
+				<li class="partial">tempting to transfer personalization to client, but that can't deliver optimal experience (more requests = more latency)</li>
+			</ul>
+		</section>
+
+		<section>
+			<h3>End-to-end JavaScript</h3>
+			<p>Mixing business logic with the UI presentation layer on the back-end is a result of the physical HTTP request/response cycle, not an architectural ideal. <span class="ref">It has created an artificial division of presentation logic across the server/client divide. The trend towards PAAS and RESTful interfaces creates a good opportunity to separate business logic from presentation layer (separation of concerns), and Node allows consolidating the UI layer under one common language.</span></p>
+			<ul class="pres">
+				<li class="partial">artificial division of presentation logic</li>
+				<li class="partial">PAAS and RESTful interfaces allows separation of concerns</li>
+				<li class="partial">Node enables consolidation of UI layer under one common language</li>
+			</ul>
+		</section>
+
+		<section>
+			<p>Once presentation logic is pulled free of business logic, it becomes possible to choose where an application's presentation logic is executed (server or client). <span class="ref">If we want to maximize user experience in an age of responsive design and progressive enhancement, it's advantageous to execute the same application logic on both the server and client. A scenario where we deliver fully rendered content on first request, for example, with client rendered content on subsequent requests (on capable devices), may be ideal.</span></p>
+			<ul class="pres">
+				<li class="partial">maximize user experience in an age of responsive design and progressive enhancement</li>
+				<li class="partial">execute same application logic on server and client</li>
+				<li class="partial">deliver fully rendered content on first request, client rendered content on subsequent requests (on capable devices)</li>
+			</ul>
+		</section>
+
+		<section>
+			<h3>API/Proxy for legacy systems</h3>
+			<p>Because of its asynchronous, event-based model, Node is often used as an orchestration server fronting all of the services an application relies upon. Assembling content from multiple API calls, or putting a pretty face on legacy systems and APIs, is a perfect and common use case.</p>
+		</section>
+
+		<section>
+			<h3>Simplicity</h3>
+			<p>Combining the asynchrony and scalability of Node with the dynamism and expressiveness of JavaScript often results in applications that are much simpler and rapid to develop. <a href="http://ozzie.net/docs/dawn-of-a-new-day/">Complexity kills</a>.</p>
+		</section>
+
+		<section>
+			<h2>Why not?</h2>
+			<p>Clearly, Node isn't the solution to every problem. It's obvious that business logic processing with lots of database CRUD, image processing, or any long-running blocking operations are best avoided. But what are some of the other issues to be aware of?</p>
+		</section>
+
+		<section>
+			<h3>Control flow</h3>
+			<p>Although the callback pattern is a simple and elegant solution to dealing with asynchrony, so-called "callback hell" (deeply nested callbacks) is a risk that can increase complexity. <span class="ref">This can largely be mitigated by refactoring or using other control flow patterns or modules (events, streams, <a href="https://npmjs.org/package/async">async module</a>, promises, co-routines, etc.).</span></p>
+			<ul class="pres">
+				<li class="partial">named functions or prototypes instead of anonymous functions</li>
+				<li class="partial">events</li>
+				<li class="partial">streams</li>
+				<li class="partial">async module (and others)</li>
+				<li class="partial">promises</li>
+				<li class="partial">co-routines (ES6 generators coming soon)</li>
+			</ul>
+		</section>
+
+		<section>
+			<h3>Error handling</h3>
+			<p>Because a single Node process is responsible for many (10,000? 100,000? 1,000,000?) connections, any unhandled errors can take down many connections at once. <span class="ref">The golden rule is: <strong>handle all errors</strong>. <a href="http://nodejs.org/api/domain.html"><code>Domains</code></a> are a good way to group I/O tasks in a sandbox in order to reduce the risk that unhandled errors will force the whole program to exit immediately.</span></p>
+			<ul class="pres">
+				<li class="partial"><strong>handle all errors</strong></li>
+				<li class="partial">use <code>Domains</code></li>
+			</ul>
+		</section>
+
+		<section>
+			<h3>DOS the back-end</h3>
+			<p>Asynchronous handling of incoming requests can lead to a situation where back-end services are flooded with traffic. Unlike other platforms or web servers, there is a very high implicit threshold before connection throttling sets in. It's very possible that back-end services will become unstable before the Node server will.</p>
+		</section>
+
+		<section>
+			<h3>Debugging</h3>
+			<p>Node's relative immaturity is most apparent in it's lack of debug tooling. <span class="ref">As a very low-level platform that relies upon callbacks (unwound call stacks make stack traces difficult to debug), true debugging often requires very low-level instrumentation at the V8 or OS level. Node can make use of V8's <a href="http://nodejs.org/api/debugger.html">debugger</a>, and tools like <a href="https://github.com/node-inspector/node-inspector">node-inspector</a> (using webkit's inspector) and <a href="http://dtrace.org/blogs/bmc/2012/05/05/debugging-node-js-memory-leaks/">DTrace</a>.</span></p>
+			<ul class="pres">
+				<li class="partial">callbacks lead to unwound call stacks (stack traces can be difficult to debug)</li>
+				<li class="partial">very low-level platform</li>
+				<li class="partial">need low-level instrumentation at V8 or OS level</li>
+				<li class="partial">V8 debugger</li>
+				<li class="partial">node-inspector tool (webkit inspector)</li>
+				<li class="partial">DTrace</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Who?</h2>
+			<p>So who uses Node?</p>
+			<ul>
+				<li class="partial"><strong>Walmart</strong>: API layer for many distributed services, serve new products (end-to-end JavaScript, legacy services)</li>
+				<li class="partial"><strong>PayPal</strong>: internal tools and systems, API layer, serve new products (rapid/agile development)</li>
+				<li class="partial"><strong>Mail online</strong>: (deliver personalized content, reduce application complexity, rapid development)</li>
+				<li class="partial"><strong>Yahoo!</strong>: internal tools and systems, PAAS (community, scale and performance)</li>
+				<li class="partial"><strong>Skype</strong>: real-time messaging/communication services</li>
+				<li class="partial"><strong>LinkedIn</strong>: API layer for mobile services (scale and performance)</li>
+				<li class="partial"><strong>AirBnB</strong>: API layer for mobile services, server and client rendering (end-to-end JavaScript)</li>
+				<li class="partial"><strong>Mozilla</strong>: Persona identity service (scale and performance, end-to-end JavaScript)</li>
+				<li class="partial"><strong>The New York Times</strong>: (flexibility and performance for real-time and mobile)</li>
+				<li class="partial"><strong>Dow Jones</strong>: (rapid development and flexibility)</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>When?</h2>
+			<p><a href="http://strongloop.com/strongblog/the-road-to-node-js-v1-0/">According to the maintainers</a>, Node core is more or less finished. The current stable release is 0.10, and the next stable release (0.12) is right around the corner:</p>
+			<ul>
+				<li class="partial">Cleanup of <code>http</code></li>
+				<li class="partial">faster <code>TLS</code></li>
+				<li class="partial">better <code>Buffer</code> memory management</li>
+			</ul>
+		</section>
+
+		<section>
+			<p>0.12 is likely the last stable release before 1.0. Subsequent releases will focus on incremental improvements (V8 upgrades, etc.), but not much in the way of new features, though performance improvements will continue to be a priority. <span class="partial">In short, <strong>Node.js is ready</strong>.</span></p>
+		</section>
+
+		<section data-cwd="examples/demo">
+			<div class="note">
+				cat package.json &amp;&amp; npm install &amp;&amp; cat server.js &amp;&amp; cat template.dust &amp;&amp; node server.js<br>
+				[new shell] cat api.js &amp;&amp; node api.js<br>
+				[open tab] http://localhost:5001
+			</div>
+			<p class="sign-off">Do you Node?</p>
+			<p class="pres partial centre">popeindustries.github.io/node101</p>
+		</section>
+
+		<section class="ref">
+			<h2>References</h2>
+			<ul class="col-2">
+				<li><a href="http://nodejs.org/about/">Node.js: about</a></li>
+				<li><a href="http://nodejs.org/api/">Node.js API</a></li>
+				<li><a href="http://www.nodebeginner.org/">The Node beginner book</a></li>
+				<li><a href="https://github.com/maxogden/art-of-node">The Art of Node</a></li>
+				<li><a href="http://debuggable.com/posts/understanding-node-js:4bd98440-45e4-4a9a-8ef7-0f7ecbdd56cb">Understanding Node.js</a></li>
+				<li><a href="https://dl.dropboxusercontent.com/u/3685/presentations/node-patterns/node-patterns.pdf">Node Patterns</a></li>
+				<li><a href="http://s3.amazonaws.com/four.livejournal/20091117/jsconf.pdf">JSConf2009 Node.js slides</a></li>
+				<li><a href="http://dailyjs.com/2013/09/26/libuv/">From fs.readFile to read(2)</a></li>
+				<li><a href="http://www.aaronstannard.com/post/2011/12/14/Intro-to-NodeJS-for-NET-Developers.aspx">Intro to Node.js for .NET developers</a></li>
+				<li><a href="http://rickgaribay.net/archive/2012/01/28/node-is-not-single-threaded.aspx">Node is not single threaded</a></li>
+				<li><a href="http://nodeschool.io">Node school</a></li>
+				<li><a href="https://github.com/substack/stream-handbook">Stream handbook</a></li>
+				<li><a href="http://dry.ly/full-streams-ahead">Streams ahead</a></li>
+				<li><a href="http://www.nczonline.net/blog/2013/10/07/node-js-and-the-new-web-front-end/">Node.js and the new web front end</a></li>
+				<li><a href="http://www.joyent.com/developers/videos/instrumenting-the-real-time-web">Instrumenting the Real-Time web</a></li>
+				<li><a href="http://www.joyent.com/developers/videos/large-scale-web">Large scale web</a></li>
+				<li><a href="http://venturebeat.com/2012/01/24/why-walmart-is-using-node-js/">Why Walmart is using Node.js</a></li>
+			</ul>
+		</section>
+	</article>
+	<div id="progress" class="pres">
+		<p>60</p>
+	</div>
+	<script src="highlight.pack.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Congratulations #{visitor}!</title>
+  <style>
+    body {
+      text-align: center;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <h1>Congratulations!</h1>
+  <p>You are visitor <strong>#{visitor}</strong></p>
+  <p>The time is now: <em>{hour}:{minute}:{second}</em></p>
+</body>
+</html>
